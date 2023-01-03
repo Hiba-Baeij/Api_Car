@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { PropsWithChildren } from 'react'
 import Login from '../../pages/Login'
-const FullScreen = () => {
+const FullScreen = (props: PropsWithChildren) => {
     return (
-        <Login></Login>
+        <div>{props.children}</div>
     )
 }
 

@@ -8,7 +8,6 @@ import rtlPlugin from 'stylis-plugin-rtl';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { prefixer } from 'stylis';
-import Layout from './components/Layout'
 import { ThemeProvider } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from './store';
@@ -48,15 +47,13 @@ function App() {
 
 
 
-            <Layout>
-              <Suspense fallback={'Loading Some Thing'}>
+            <Suspense fallback={'Loading Some Thing'}>
 
-                <main className='tw-block'>
-                  <Router />
+              <main className='tw-block'>
+                <Router />
 
-                </main>
-              </Suspense>
-            </Layout>
+              </main>
+            </Suspense>
           </BrowserRouter>
         </RTL>
       </ThemeProvider>

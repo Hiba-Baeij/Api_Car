@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import Layout from '../components/Layout'
+import Dashboard from '@/components/layouts/Dashboard'
+import FullScreen from '@/components/layouts/FullScreen'
 import Home from '../pages/Home'
 import Login from '../pages/Login'
 import Brands from '../pages/Brands'
@@ -15,52 +16,52 @@ const Countries = React.lazy(() => import('../pages/Countries'));
 function Router() {
     const routes = [
         {
-            id: 0,
+            layout: Dashboard,
             name: Home,
             path: '/'
         },
         {
-            id: 1,
+            layout: Dashboard,
             name: Brands,
             path: '/brands'
         },
         {
-            id: 2,
+            layout: Dashboard,
             name: Cars,
             path: '/cars'
         },
         {
-            id: 3,
+            layout: Dashboard,
             name: Countries,
             path: '/countries'
         },
         {
-            id: 4,
+            layout: Dashboard,
             name: Products,
             path: '/products'
         },
         {
-            id: 5,
+            layout: Dashboard,
             name: Invoces,
             path: '/invoces'
         },
         {
-            id: 6,
+            layout: Dashboard,
             name: Accounting,
             path: '/accounting'
         },
         {
-            id: 7,
+            layout: Dashboard,
             name: Settings,
             path: '/settings'
         },
         {
-            id: 8,
+            layout: Dashboard,
             name: Inventories,
             path: '/inventories'
         },
         {
-            id: 9,
+            layout: FullScreen,
             name: Login,
             path: '/login'
         },
@@ -69,19 +70,16 @@ function Router() {
 
     return (
         <Routes>
-            {routes.map(Ele => (
-                <Route key={Ele.id} element={
-                    Ele.id == 9 ?
-                        <Login />
-                        :
-                        <Layout>
-                            <Suspense fallback={'Loading Some Thing'}>
-                                <main className='tw-block'>
-                                    <Ele.name />
+            {routes.map((Ele, i) => (
+                <Route key={i} element={
+                    <Ele.layout>
+                        <Suspense fallback={'Loading Some Thing'}>
+                            <main className='tw-block'>
+                                <Ele.name />
 
-                                </main>
-                            </Suspense>
-                        </Layout>
+                            </main>
+                        </Suspense>
+                    </Ele.layout>
                 } path={Ele.path} >
                 </Route>
             ))}
