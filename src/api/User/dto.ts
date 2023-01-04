@@ -3,3 +3,8 @@ export interface Register {
     password: string;
     phonNumber: string;
 }
+
+export interface Login {
+    userName: string;
+    password: string;
+}
