@@ -6,7 +6,7 @@ import Home from '../pages/Home'
 import Login from '../pages/Login'
 import Brands from '../pages/Brands'
 import Cars from '../pages/Cars'
-import Products from '../pages/Products';
+import Parts from '../pages/Parts';
 import Invoces from '../pages/Invoces';
 import Accounting from '../pages/Accounting';
 import Settings from '../pages/Settings';
@@ -37,7 +37,7 @@ function Router() {
         },
         {
             layout: Dashboard,
-            name: Products,
+            name: Parts,
             path: '/products'
         },
         {

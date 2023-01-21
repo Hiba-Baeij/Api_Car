@@ -15,12 +15,11 @@ export const fetchCars = createAsyncThunk('car/fetch', async () => {
 })
 
 export const addCar = createAsyncThunk('car/add', async (payload: any) => {
-    console.log(payload);
     try {
         const formData = serialize(payload)
         const response = await axiosIns.post(CarAPI.base, formData)
 
-        console.log(response);
+        return response.data;
 
     }
 

@@ -4,7 +4,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+import { Button, CardActionArea, CardActions } from '@mui/material';
 import { SERVER_URL } from '@/../app.config';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
@@ -20,14 +20,14 @@ export default function CarsList(props: propsType) {
     return (
         <div className="grid grid-cols-4 gap-4">
             {
-                props.carsList.map(car => <Card >
-                    <CardActionArea>
-                        <CardMedia
+                props.carsList.map(car =>
+                    <Card key={car.id} sx={{ borderRadius: '28px', padding: '6px' }} >
+                        {car.image && <CardMedia
+                            sx={{ height: '240px', borderRadius: '22px' }}
                             component="img"
-                            height="140"
                             image={getFileUrl(car.image)}
                             alt="green iguana"
-                        />
+                        />}
                         <CardContent className=''>
                             <div className="flex justify-between items-center">
 
@@ -39,8 +39,10 @@ export default function CarsList(props: propsType) {
                             <Typography className='text-gray-500' fontSize={14} align='right'>{car.model}</Typography>
 
                         </CardContent>
-                    </CardActionArea>
-                </Card>
+                        <CardActions>
+                            <Button variant='contained' fullWidth sx={{ borderRadius: '24px' }} >التفاصيل</Button>
+                        </CardActions>
+                    </Card>
                 )
 
             }

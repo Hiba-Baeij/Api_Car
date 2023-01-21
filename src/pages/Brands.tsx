@@ -9,7 +9,7 @@ import { BrandItem } from '@/api/Brand/dto'
 
 
 export default function Brands() {
-  const brands = useSelector<RootState, BrandItem[]>((state) => state.brand.brands) as []
+  const brands = useSelector<RootState, BrandItem[]>((state) => state.brand.brands)
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     dispatch(fetchBrands());

@@ -17,6 +17,7 @@ import Upload from '../Upload';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import { Add } from '@mui/icons-material';
+import { addCar } from '@/store/cars';
 
 
 const validationSchema = yup.object({
@@ -27,17 +28,14 @@ const validationSchema = yup.object({
 })
 
 export default function FormDialog() {
-
+    const dispatch = useDispatch<AppDispatch>()
     const carForm = useFormik({
         initialValues: {
             ...new AddCarDTO()
         },
         validationSchema,
         onSubmit: (values) => {
-            console.log('submited');
-
-            // dispatch(addCar(values))
-
+            dispatch(addCar(values))
         },
 
     })
@@ -60,11 +58,6 @@ export default function FormDialog() {
 
 
 
-    const [age, setAge] = React.useState('');
-
-    const handleChange = (event: any) => {
-        setAge(event.target.value as string);
-    };
     return (
         <div>
 
@@ -78,19 +71,21 @@ export default function FormDialog() {
                     <DialogTitle>إضافة سيارة</DialogTitle>
                     <DialogContent className='flex flex-col min-w-[31.25rem] p-2 gap-4 '>
 
-                        <FormControl className='py-4 my-5 ' sx={{ marginTop: '10px' }} >
+                        <FormControl className='py-4 my-5 ' sx={{ marginTop: '10px' }}  >
                             <InputLabel id="brand-id-label">الشركة المصنعة</InputLabel>
                             <Select
-
+                                name='brandId'
                                 value={carForm.values.brandId}
                                 onChange={(e) => carForm.setFieldValue('brandId', e.target.value)}
                                 labelId="brand-id-label"
                                 label="الشركة المصنعة"
+                                error={carForm.touched.brandId}
                             >
                                 {
                                     brands.map((b) => <MenuItem key={b.id} value={b.id}>{b.name}</MenuItem>)
                                 }
                             </Select>
+                            <small>{carForm.touched.brandId && carForm.errors.brandId}</small>
                         </FormControl>
                         <TextField name='name' id='car-name' label='اسم السيارة' value={carForm.values.name} onChange={carForm.handleChange} error={carForm.touched.name} helperText={carForm.touched.name && carForm.errors.name}
                         />

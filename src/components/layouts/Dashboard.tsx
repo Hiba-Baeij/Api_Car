@@ -105,7 +105,7 @@ export default function ResponsiveDrawer(props: React.PropsWithChildren & any) {
     const drawer = (
         <Box>
             <Toolbar >
-                <Typography color={'white'} fontSize={24}>كار مانجر </Typography>
+                <Typography color={'white'} fontSize={24}>Auto Parts </Typography>
             </Toolbar>
             <List>
                 {navlinks.map(({ text, path, icon }, index) => (
