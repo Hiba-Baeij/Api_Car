@@ -74,7 +74,7 @@ function Router() {
                 <Route key={i} element={
                     <Ele.layout>
                         <Suspense fallback={'Loading Some Thing'}>
-                            <main className='tw-block'>
+                            <main >
                                 <Ele.name />
 
                             </main>

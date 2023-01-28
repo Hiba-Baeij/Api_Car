@@ -31,7 +31,7 @@ export default function CarsList(props: propsType) {
                         <CardContent className=''>
                             <div className="flex justify-between items-center">
 
-                                {brands.length && <img src={`/brands/${brandInfo(car.brandId)?.name}.png`} className='h-10' alt="" />}
+                                {brands.length && <img src={`/brands/${brandInfo(car.brandId)?.name}.png`} className='h-14' alt="" />}
                                 <Typography className='text-gray-700' fontWeight={600} gutterBottom variant="h5" margin={0} component="div">
                                     {brandInfo(car.brandId)?.name} {car.name}
                                 </Typography>

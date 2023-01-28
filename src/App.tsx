@@ -11,7 +11,9 @@ import { prefixer } from 'stylis';
 import { ThemeProvider } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from './store';
-import { fetchCountries } from './store/countries';
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
+
+const queryClient = new QueryClient()
 const stylisPlugins = [prefixer];
 const htmlDir = document.querySelector('html');
 if (htmlDir?.dir === 'rtl') {
@@ -34,28 +36,32 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchBrands());
-    dispatch(fetchCountries());
+    // dispatch(fetchCountries());
   }, [])
 
   return (
     <div className="app tw-w-full">
       <ThemeProvider theme={customTheme}>
-        <RTL>
+        <QueryClientProvider client={queryClient}>
 
-          <CssBaseline />
-          <BrowserRouter>
+          <RTL>
+
+            <CssBaseline />
+            <BrowserRouter>
 
 
 
-            <Suspense fallback={'Loading Some Thing'}>
+              <Suspense fallback={'Loading Some Thing'}>
 
-              <main className='tw-block'>
-                <Router />
+                <main className='tw-block'>
+                  <Router />
 
-              </main>
-            </Suspense>
-          </BrowserRouter>
-        </RTL>
+                </main>
+              </Suspense>
+            </BrowserRouter>
+          </RTL>
+        </QueryClientProvider>
+
       </ThemeProvider>
     </div>
   );

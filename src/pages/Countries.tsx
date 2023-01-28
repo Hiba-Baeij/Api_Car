@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { CountryController } from '~/api/Country'
 import { axiosIns } from '../libs/axios'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchCountries } from '~/store/countries'
 import { CountryItem } from '~/api/Country/dto'
 import Box from '@mui/material/Box';
 import Skeleton from '@mui/material/Skeleton';
@@ -16,6 +15,8 @@ import Paper from '@mui/material/Paper';
 import { IconButton } from '@mui/material';
 import { MoreVert, MoreHoriz } from '@mui/icons-material'
 import { AppDispatch, RootState } from '~/store'
+import { useQuery } from 'react-query'
+import { countriesSlice } from '@/store/countries'
 function Loader() {
   return (
     <Box sx={{ width: '100%' }}>
@@ -81,6 +82,11 @@ function BasicTable(props: { data: CountryItem[] } = { data: [] }) {
 function Countries() {
   const dispatch = useDispatch<AppDispatch>()
 
+  const query = useQuery('country', () => axiosIns.get<CountryItem[]>(CountryController.Base,), {
+    onSuccess: ({ data }) => {
+      dispatch(countriesSlice.actions.setCars(data))
+    }
+  })
 
   const countries = useSelector<RootState>((state) => state.country.countries) as CountryItem[]
   const [isLoading, setLoading] = useState(false)
@@ -88,10 +94,10 @@ function Countries() {
 
 
 
-  useEffect(() => {
-    // getCountries();
-    dispatch(fetchCountries())
-  }, [])
+
+
+
+
   return (
     <React.Suspense fallback={<Loader />}>
 
