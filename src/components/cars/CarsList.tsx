@@ -1,5 +1,5 @@
 import { GetAllCar } from '@/api/Car/dto'
-import React, { useMemo } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -11,7 +11,8 @@ import { RootState } from '@/store';
 import { BrandItem } from '@/api/Brand/dto';
 
 type propsType = {
-    carsList: GetAllCar[]
+    carsList: GetAllCar[],
+    onDetails: (carItem: GetAllCar) => void
 }
 export default function CarsList(props: propsType) {
     const brands = useSelector<RootState, BrandItem[]>(state => state.brand.brands)
@@ -28,6 +29,7 @@ export default function CarsList(props: propsType) {
                             image={getFileUrl(car.image)}
                             alt="green iguana"
                         />}
+
                         <CardContent className=''>
                             <div className="flex justify-between items-center">
 
@@ -39,8 +41,9 @@ export default function CarsList(props: propsType) {
                             <Typography className='text-gray-500' fontSize={14} align='right'>{car.model}</Typography>
 
                         </CardContent>
+
                         <CardActions>
-                            <Button variant='contained' fullWidth sx={{ borderRadius: '24px' }} >التفاصيل</Button>
+                            <Button variant='contained' fullWidth sx={{ borderRadius: '24px' }} onClick={() => props.onDetails(car)}>التفاصيل</Button>
                         </CardActions>
                     </Card>
                 )

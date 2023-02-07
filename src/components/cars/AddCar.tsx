@@ -7,8 +7,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { AddCarDTO } from '@/api/Car/dto';
-import { Autocomplete, InputLabel, MenuItem, Select } from '@mui/material';
+import { AddCarDTO, GetAllCar } from '@/api/Car/dto';
+import { Autocomplete, IconButton, InputLabel, MenuItem, Select } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { BrandItem } from '@/api/Brand/dto';
@@ -16,18 +16,23 @@ import { useState, useEffect } from 'react'
 import Upload from '../Upload';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
-import { Add } from '@mui/icons-material';
-import { addCar } from '@/store/cars';
-
+import { Add, Close } from '@mui/icons-material';
+import { CarActions } from '@/store/cars';
+import { useQuery } from 'react-query';
 
 const validationSchema = yup.object({
     name: yup.string().required('اسم السيارة مطلوب'),
     brandId: yup.string().required('ماركة السيارة مطلوبة'),
     model: yup.number().required().min(1970),
-
 })
 
-export default function FormDialog() {
+interface propsType {
+    carModifyDto: GetAllCar | null
+}
+
+export default function FormDialog({ carModifyDto }: propsType) {
+    const showModal = useSelector<RootState, boolean>((state) => state.car.carFormModal);
+    const brands = useSelector<RootState, BrandItem[]>((state) => state.brand.brands)
     const dispatch = useDispatch<AppDispatch>()
     const carForm = useFormik({
         initialValues: {
@@ -35,40 +40,51 @@ export default function FormDialog() {
         },
         validationSchema,
         onSubmit: (values) => {
-            dispatch(addCar(values))
+            // dispatch(addCar(values))
         },
 
     })
 
+    const deleteCar = () => {
+        useQuery({})
+    }
 
-    const brands = useSelector<RootState, BrandItem[]>((state) => state.brand.brands)
+    useEffect(() => {
+        if (carModifyDto !== null && carModifyDto.id) {
+            dispatch(CarActions.setCarModal(true));
+            carForm.setValues({
+                brandId: carModifyDto.brandId,
+                name: carModifyDto.name,
+                carCategoryId: carModifyDto.carCategoryId,
+                imageUrl: carModifyDto.image,
+                model: carModifyDto.model
+            })
 
-    const [open, setOpen] = useState(false);
-
-
-
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
+        }
+    }, [carModifyDto])
 
 
 
     return (
         <div>
-
-            <Button variant="text" onClick={handleClickOpen}  >
+            <Button variant="text" onClick={() => dispatch(CarActions.setCarModal(true))}  >
                 إضافة سيارة
                 <Add></Add>
             </Button>
-            <Dialog open={open} onClose={handleClose}>
+
+            <Dialog open={showModal} >
 
                 <form onSubmit={carForm.handleSubmit} >
-                    <DialogTitle>إضافة سيارة</DialogTitle>
+                    <div className="flex justify-between items-center pl-4">
+
+                        <DialogTitle
+                        >إضافة سيارة
+
+                        </DialogTitle>
+
+
+                        <IconButton onClick={() => dispatch(CarActions.setCarModal(false))}><Close /></IconButton>
+                    </div>
                     <DialogContent className='flex flex-col min-w-[31.25rem] p-2 gap-4 '>
 
                         <FormControl className='py-4 my-5 ' sx={{ marginTop: '10px' }}  >
@@ -93,15 +109,16 @@ export default function FormDialog() {
 
                         <div>
 
-                            <Upload label="صورة السيارة" name='image' onChange={(e: any) => {
+                            <Upload label="صورة السيارة" name='image' url={carForm.values.imageUrl} onChange={(e: any) => {
                                 carForm.setFieldValue('image', e.file)
                             }} />
                         </div>
 
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={handleClose}>الغاء</Button>
+                        <Button onClick={() => dispatch(CarActions.setCarModal(false))}>الغاء</Button>
                         <Button type='submit'>إضافة السيارة</Button>
+                        <Button onClick={() => deleteCar}>حذف السيارة</Button>
                     </DialogActions>
                 </form>
             </Dialog>

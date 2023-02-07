@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
+import { SERVER_URL } from '@/../app.config'
 const id = uuidv4();
 
 const Label = styled.label`
@@ -9,17 +10,33 @@ width:100%;
 min-height: 100px;
 cursor: pointer;
 `
+interface propsType {
+    onChange: (payload: { file: File, name: string, src: string }) => void,
+    onChangeUrl?: () => string,
+    url: string,
+    name: string, [x: string]: any
+}
+export default function Upload({ onChange, url, name, ...rest }: propsType) {
 
-export default function Upload({ onChange, name, ...rest }: { onChange: Function, name: string, [x: string]: any }) {
     const [src, setSrc] = useState('')
+
 
     function handleChange(event: any) {
         const file = event.target.files[0];
         const url = URL.createObjectURL(file);
         setSrc(url)
-        onChange({ file, name: name, url })
-
+        onChange({ file, name: name, src })
     }
+
+    useEffect(() => {
+        if (url.includes('http'))
+            setSrc(url)
+        else
+            setSrc(`${SERVER_URL}/${url}`)
+
+    }, [url])
+
+
     return (
         <>
             <label className='my-2' > {rest.label}</label>
