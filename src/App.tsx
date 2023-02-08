@@ -12,7 +12,7 @@ import { ThemeProvider } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from './store';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
-
+import { ReactQueryDevtools } from 'react-query/devtools'
 const queryClient = new QueryClient()
 const stylisPlugins = [prefixer];
 const htmlDir = document.querySelector('html');
@@ -60,8 +60,8 @@ function App() {
               </Suspense>
             </BrowserRouter>
           </RTL>
+          <ReactQueryDevtools />
         </QueryClientProvider>
-
       </ThemeProvider>
     </div>
   );

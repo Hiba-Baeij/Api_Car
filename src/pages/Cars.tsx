@@ -7,7 +7,7 @@ import CarsList from '@/components/cars/CarsList'
 import { GetAllCar } from '@/api/Car/dto'
 import { Autocomplete, Card, TextField } from '@mui/material'
 import { CountryItem } from '@/api/Country/dto'
-import { CarAPI } from '@/api/Car'
+import { CarApi } from '@/api/Car'
 import { useQuery } from 'react-query'
 import { CarActions } from '@/store/cars'
 import { axiosIns } from '@/libs/axios'
@@ -16,17 +16,9 @@ export default function Cars() {
     const brands = useSelector<RootState, CountryItem[]>(state => state.brand.brands)
     const [modifyItem, setModifyItem] = useState<GetAllCar | null>(null)
 
-    const fetchCars = async () => {
-        try {
-            const { data } = await axiosIns.get<GetAllCar[]>(CarAPI.base)
-            return data;
-        }
-        catch (er) {
-            throw (er)
-        }
-    }
 
-    useQuery('car', fetchCars, {
+
+    useQuery('car', CarApi.fetchCars, {
         onSuccess: (data) => {
             dispatch(CarActions.setCarsList(data));
         }
