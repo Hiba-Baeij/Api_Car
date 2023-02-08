@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { AddCarDTO, GetAllCar } from '@/api/Car/dto';
-import { Autocomplete, IconButton, InputLabel, MenuItem, Select } from '@mui/material';
+import { Autocomplete, ButtonGroup, IconButton, InputLabel, MenuItem, Select } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store';
 import { BrandItem } from '@/api/Brand/dto';
@@ -18,7 +18,8 @@ import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import { Add, Close } from '@mui/icons-material';
 import { CarActions } from '@/store/cars';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { CarApi } from '@/api/Car';
 
 const validationSchema = yup.object({
     name: yup.string().required('اسم السيارة مطلوب'),
@@ -31,6 +32,7 @@ interface propsType {
 }
 
 export default function FormDialog({ carModifyDto }: propsType) {
+    const queryClient = useQueryClient()
     const showModal = useSelector<RootState, boolean>((state) => state.car.carFormModal);
     const brands = useSelector<RootState, BrandItem[]>((state) => state.brand.brands)
     const dispatch = useDispatch<AppDispatch>()
@@ -45,10 +47,14 @@ export default function FormDialog({ carModifyDto }: propsType) {
 
     })
 
-    const deleteCar = () => {
-        useQuery({})
-    }
 
+
+    const deleteCar = useMutation(CarApi.deleteCar, {
+        onSuccess: () => {
+            // queryClient
+
+        }
+    });
     useEffect(() => {
         if (carModifyDto !== null && carModifyDto.id) {
             dispatch(CarActions.setCarModal(true));
@@ -85,7 +91,7 @@ export default function FormDialog({ carModifyDto }: propsType) {
 
                         <IconButton onClick={() => dispatch(CarActions.setCarModal(false))}><Close /></IconButton>
                     </div>
-                    <DialogContent className='flex flex-col min-w-[31.25rem] p-2 gap-4 '>
+                    <DialogContent className='flex flex-col min-w-[35rem] p-2 gap-4 '>
 
                         <FormControl className='py-4 my-5 ' sx={{ marginTop: '10px' }}  >
                             <InputLabel id="brand-id-label">الشركة المصنعة</InputLabel>
@@ -115,10 +121,17 @@ export default function FormDialog({ carModifyDto }: propsType) {
                         </div>
 
                     </DialogContent>
-                    <DialogActions>
-                        <Button onClick={() => dispatch(CarActions.setCarModal(false))}>الغاء</Button>
-                        <Button type='submit'>إضافة السيارة</Button>
-                        <Button onClick={() => deleteCar}>حذف السيارة</Button>
+                    <DialogActions sx={{ justifyContent: 'space-between' }}>
+
+                        <Box gap={2} display='flex' >
+                            <Button variant='contained' type='submit'>إضافة السيارة</Button>
+                            <Button onClick={() => dispatch(CarActions.setCarModal(false))}>الغاء</Button>
+
+                        </Box >
+                        {
+                            carModifyDto && <Button variant='text' color='error' onClick={() => deleteCar.mutate(carModifyDto.id)}>حذف السيارة</Button>
+                        }
+
                     </DialogActions>
                 </form>
             </Dialog>

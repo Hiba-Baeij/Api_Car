@@ -9,10 +9,11 @@ export class AddCarDTO {
 }
 
 export interface GetAllCar {
-    id: number;
+    id: string;
     name: string;
     model: string;
     image: string;
     brandId: number;
     carCategoryId?: any;
 }
+
