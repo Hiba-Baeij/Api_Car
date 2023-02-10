@@ -16,6 +16,7 @@ import { NavLink } from 'react-router-dom';
 import { Slide, useScrollTrigger } from '@mui/material';
 import { Home, ViewCompact, Inventory, ImportExport, Store, AttachMoney, Group, Settings, Google, Web, } from '@mui/icons-material'
 import DirectionsCarFilledIcon from '@mui/icons-material/DirectionsCarFilled';
+
 const navlinks = [
     {
         text: "الرئيسية",
@@ -60,6 +61,11 @@ const navlinks = [
     {
         text: "المستودعات",
         path: "/inventories",
+        icon: <Inventory />
+    },
+    {
+        text: "زبائن",
+        path: "/clients",
         icon: <Inventory />
     },
 
