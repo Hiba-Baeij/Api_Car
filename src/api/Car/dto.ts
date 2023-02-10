@@ -1,6 +1,6 @@
 export class AddCarDTO {
     name = ''
-    brandId = 0
+    brandId = ''
     model?: string = ''
     image?: File | null = null
     imageUrl: string = ''
@@ -13,7 +13,7 @@ export interface GetAllCar {
     name: string;
     model: string;
     image: string;
-    brandId: number;
+    brandId: string;
     carCategoryId?: any;
 }
 

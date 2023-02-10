@@ -19,7 +19,7 @@ export default function CarsList(props: propsType) {
     const brandInfo = (id: number) => brands.find(b => b.id == id)
     const getFileUrl = (url: string) => `${SERVER_URL}/${url}`
     return (
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
             {
                 props.carsList.map(car =>
                     <Card key={car.id} sx={{ borderRadius: '28px', padding: '6px' }} >
