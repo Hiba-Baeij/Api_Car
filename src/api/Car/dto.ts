@@ -8,12 +8,12 @@ export class AddCarDTO {
 
 }
 
-export interface GetAllCar {
-    id: string;
-    name: string;
-    model: string;
-    image: string;
-    brandId: string;
-    carCategoryId?: any;
+export class GetAllCar {
+    id = '';
+    name = '';
+    model = '';
+    image = '';
+    brandId = '';
+    carCategoryId? = '';
 }
 

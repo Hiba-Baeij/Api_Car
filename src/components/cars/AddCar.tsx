@@ -1,4 +1,4 @@
- import Button from '@mui/material/Button';
+import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -18,36 +18,47 @@ import { CarActions } from '@/store/cars';
 import { useMutation, useQueryClient } from 'react-query';
 import { CarApi } from '@/api/Car';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify';
 
 
 interface propsType {
-    carModifyDto: GetAllCar | null
+    carModifyDto: GetAllCar | null,
+    onCloseDialog: () => void
 }
 
-export default function FormDialog({ carModifyDto }: propsType) {
+export default function FormDialog({ carModifyDto, onCloseDialog }: propsType) {
+    const initialFormState = {
+        brandId: '',
+        carCategoryId: '',
+        image: null,
+        model: '',
+        name: '',
+    }
     const queryClient = useQueryClient()
     const showModal = useSelector<RootState, boolean>((state) => state.car.carFormModal);
     const brands = useSelector<RootState, BrandItem[]>((state) => state.brand.brands)
     const dispatch = useDispatch<AppDispatch>()
     const [imageUrl, setImageUrl] = useState('')
     const { handleSubmit, control, setValue, reset, } = useForm<Omit<AddCarDTO, 'imageUrl'>>({
-        defaultValues: {
-            brandId: '',
-            carCategoryId: '',
-            image: null,
-            model: '',
-            name: '',
-        }
+        defaultValues: { ...initialFormState }
     })
 
-    const resetForm= ()=>{
-        reset();
+    const resetForm = () => {
+        console.log('reset form');
+
+        reset({ ...initialFormState });
         setImageUrl('')
         dispatch(CarActions.setCarModal(false));
 
     }
+
     const mutation = useMutation(CarApi.addCar, {
-        onSuccess: () => {
+    
+        onSuccess: (d:GetAllCar) => {
+            toast(`تمت إضافة ${d.name}`  , {
+                theme:'light',
+                type:'success'
+            })
             queryClient.invalidateQueries('car');
             resetForm()
         }
@@ -68,19 +79,25 @@ export default function FormDialog({ carModifyDto }: propsType) {
         if (carModifyDto !== null && carModifyDto.id) {
             dispatch(CarActions.setCarModal(true));
             reset({
-            brandId:carModifyDto.brandId,
-            carCategoryId:carModifyDto.carCategoryId,
-            model:carModifyDto.model,
-            name:carModifyDto.name,
-            image:null,
+                brandId: carModifyDto.brandId,
+                carCategoryId: carModifyDto.carCategoryId,
+                model: carModifyDto.model,
+                name: carModifyDto.name,
+                image: null,
             })
             setImageUrl(carModifyDto.image)
 
         }
     }, [carModifyDto])
 
+    useEffect(() => {
+        if (showModal === false) {
+            resetForm();
+            onCloseDialog();
+        }
+    }, [showModal])
 
-
+    
     return (
         <div>
 
@@ -93,7 +110,6 @@ export default function FormDialog({ carModifyDto }: propsType) {
 
                 <form onSubmit={handleSubmit(onsubmit)} >
                     <div className="flex justify-between items-center pl-4">
-
                         <DialogTitle
                         >إضافة سيارة
 

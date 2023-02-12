@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../store'
 
+import 'react-toastify/dist/ReactToastify.css';
 import AddCar from '@/components/cars/AddCar'
 import CarsList from '@/components/cars/CarsList'
 import { GetAllCar } from '@/api/Car/dto'
@@ -10,8 +11,8 @@ import { CountryItem } from '@/api/Country/dto'
 import { CarApi } from '@/api/Car'
 import { useQuery } from 'react-query'
 import { CarActions } from '@/store/cars'
-import { axiosIns } from '@/libs/axios'
 export default function Cars() {
+
     const countries = useSelector<RootState, CountryItem[]>(state => state.country.countries)
     const brands = useSelector<RootState, CountryItem[]>(state => state.brand.brands)
     const [modifyItem, setModifyItem] = useState<GetAllCar | null>(null)
@@ -54,7 +55,7 @@ export default function Cars() {
                         renderInput={(params) => <TextField {...params} label="الشركة المصنعة" />}
                     />
 
-                    <AddCar carModifyDto={modifyItem} ></AddCar>
+                    <AddCar carModifyDto={modifyItem} onCloseDialog={()=>setModifyItem(null)} ></AddCar>
                 </div>
             </Card>
 
