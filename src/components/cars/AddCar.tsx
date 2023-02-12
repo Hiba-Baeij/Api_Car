@@ -51,6 +51,7 @@ export default function FormDialog({ carModifyDto, onCloseDialog }: propsType) {
         dispatch(CarActions.setCarModal(false));
 
     }
+
     const mutation = useMutation(CarApi.addCar, {
     
         onSuccess: (d:GetAllCar) => {
@@ -96,6 +97,7 @@ export default function FormDialog({ carModifyDto, onCloseDialog }: propsType) {
         }
     }, [showModal])
 
+    
     return (
         <div>
 
