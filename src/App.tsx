@@ -13,6 +13,9 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from './store';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
+import { ToastContainer  } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 const queryClient = new QueryClient()
 const stylisPlugins = [prefixer];
 const htmlDir = document.querySelector('html');
@@ -61,6 +64,8 @@ function App() {
             </BrowserRouter>
           </RTL>
           <ReactQueryDevtools />
+          <ToastContainer />
+
         </QueryClientProvider>
       </ThemeProvider>
     </div>
