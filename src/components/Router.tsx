@@ -11,6 +11,7 @@ import Invoces from '../pages/Invoces';
 import Accounting from '../pages/Accounting';
 import Settings from '../pages/Settings';
 import Inventories from '../pages/Inventories';
+import Clients from '../pages/Clients';
 
 const Countries = React.lazy(() => import('../pages/Countries'));
 function Router() {
@@ -59,6 +60,11 @@ function Router() {
             layout: Dashboard,
             name: Inventories,
             path: '/inventories'
+        },
+        {
+            layout: Dashboard,
+            name: Clients,
+            path: '/clients'
         },
         {
             layout: FullScreen,
