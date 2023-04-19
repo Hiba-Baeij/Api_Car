@@ -12,6 +12,7 @@ import Accounting from '../pages/Accounting';
 import Settings from '../pages/Settings';
 import Inventories from '../pages/Inventories';
 import Clients from '../pages/Clients';
+import Signup from '../pages/Signup';
 
 const Countries = React.lazy(() => import('../pages/Countries'));
 function Router() {
