@@ -3,14 +3,17 @@ export class AddCarDTO {
     brandId = ''
     model?: string = ''
     image?: File | null = null
+    imageUrl: string = ''
     carCategoryId?= ''
+
 }
 
-export interface GetAllCar {
-    id: number;
-    name: string;
-    model: number;
-    image: string;
-    brandId: number;
-    carCategoryId?: any;
+export class GetAllCar {
+    id = '';
+    name = '';
+    model = '';
+    image = '';
+    brandId = '';
+    carCategoryId? = '';
 }
+

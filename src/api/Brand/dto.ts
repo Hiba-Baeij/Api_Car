@@ -1,5 +1,4 @@
 export interface BrandItem {
-
     name: string;
     description?: any;
     image: string;

@@ -1,22 +1,35 @@
-import React, { useEffect, useState } from 'react'
-import { carState } from '../store/cars'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../store'
 
+import 'react-toastify/dist/ReactToastify.css';
 import AddCar from '@/components/cars/AddCar'
 import CarsList from '@/components/cars/CarsList'
-import { fetchCars } from '../store/cars'
 import { GetAllCar } from '@/api/Car/dto'
 import { Autocomplete, Card, TextField } from '@mui/material'
-import { Search } from '@mui/icons-material'
 import { CountryItem } from '@/api/Country/dto'
+import { CarApi } from '@/api/Car'
+import { useQuery } from 'react-query'
+import { CarActions } from '@/store/cars'
 export default function Cars() {
+
     const countries = useSelector<RootState, CountryItem[]>(state => state.country.countries)
     const brands = useSelector<RootState, CountryItem[]>(state => state.brand.brands)
+    const [modifyItem, setModifyItem] = useState<GetAllCar | null>(null)
+
+
+
+    useQuery('car', CarApi.fetchCars, {
+        onSuccess: (data) => {
+            dispatch(CarActions.setCarsList(data));
+        }
+    })
+
+
     const dispatch = useDispatch<AppDispatch>()
-    useEffect(() => {
-        dispatch(fetchCars())
-    }, [])
+
+
+
     const cars = useSelector<RootState, GetAllCar[]>(state => state.car.cars)
     return (
         <div>
@@ -42,12 +55,12 @@ export default function Cars() {
                         renderInput={(params) => <TextField {...params} label="الشركة المصنعة" />}
                     />
 
-                    <AddCar></AddCar>
+                    <AddCar carModifyDto={modifyItem} onCloseDialog={()=>setModifyItem(null)} ></AddCar>
                 </div>
             </Card>
 
             <div className='mt-4 px-4'>
-                <CarsList carsList={cars}></CarsList>
+                <CarsList onDetails={(car) => { setModifyItem(car) }} carsList={cars}></CarsList>
             </div>
         </div>
     )

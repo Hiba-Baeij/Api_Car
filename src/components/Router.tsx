@@ -6,12 +6,12 @@ import Home from '../pages/Home'
 import Login from '../pages/Login'
 import Brands from '../pages/Brands'
 import Cars from '../pages/Cars'
-import Products from '../pages/Products';
+import Parts from '../pages/Parts';
 import Invoces from '../pages/Invoces';
 import Accounting from '../pages/Accounting';
 import Settings from '../pages/Settings';
 import Inventories from '../pages/Inventories';
-import Signup from '../pages/Signup';
+import Clients from '../pages/Clients';
 
 const Countries = React.lazy(() => import('../pages/Countries'));
 function Router() {
@@ -38,7 +38,7 @@ function Router() {
         },
         {
             layout: Dashboard,
-            name: Products,
+            name: Parts,
             path: '/products'
         },
         {
@@ -62,6 +62,11 @@ function Router() {
             path: '/inventories'
         },
         {
+            layout: Dashboard,
+            name: Clients,
+            path: '/clients'
+        },
+        {
             layout: FullScreen,
             name: Login,
             path: '/login'
@@ -80,7 +85,7 @@ function Router() {
                 <Route key={i} element={
                     <Ele.layout>
                         <Suspense fallback={'Loading Some Thing'}>
-                            <main className='tw-block'>
+                            <main >
                                 <Ele.name />
 
                             </main>

@@ -16,6 +16,7 @@ import { NavLink } from 'react-router-dom';
 import { Slide, useScrollTrigger } from '@mui/material';
 import { Home, ViewCompact, Inventory, ImportExport, Store, AttachMoney, Group, Settings, Google, Web, } from '@mui/icons-material'
 import DirectionsCarFilledIcon from '@mui/icons-material/DirectionsCarFilled';
+
 const navlinks = [
     {
         text: "الرئيسية",
@@ -62,6 +63,11 @@ const navlinks = [
         path: "/inventories",
         icon: <Inventory />
     },
+    {
+        text: "زبائن",
+        path: "/clients",
+        icon: <Inventory />
+    },
 
 
 ]
@@ -105,7 +111,7 @@ export default function ResponsiveDrawer(props: React.PropsWithChildren & any) {
     const drawer = (
         <Box>
             <Toolbar >
-                <Typography color={'white'} fontSize={24}>كار مانجر </Typography>
+                <Typography color={'white'} fontSize={24}>Auto Parts </Typography>
             </Toolbar>
             <List>
                 {navlinks.map(({ text, path, icon }, index) => (
